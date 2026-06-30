@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gibbons — AI-Powered Recruiting Command Center</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #44403c;
+    background: #faf9f7;
+    line-height: 1.6;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a1410 0%, #2a1e14 55%, #3d2a1a 100%);
+    color: white;
+    padding: 80px 40px 90px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -60px;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(234,88,12,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -60px;
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(217,119,6,0.10) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(234,88,12,0.18);
+    border: 1px solid rgba(234,88,12,0.4);
+    color: #fdba74;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    line-height: 1.15;
+    color: #fff;
+  }
+  .hero h1 span { color: #fb923c; }
+  .hero p {
+    font-size: 1.15rem;
+    color: #a8a29e;
+    max-width: 620px;
+    margin: 0 auto 44px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 52px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #fb923c;
+    display: block;
+  }
+  .hero-stat .label {
+    font-size: 0.76rem;
+    color: #78716c;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  section { padding: 72px 32px; }
+  section:nth-child(even) { background: white; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c2410c;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #1a1410;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    color: #78716c;
+    font-size: 1rem;
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+
+  /* WHAT IS GIBBONS */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    align-items: start;
+  }
+  @media (max-width: 720px) { .intro-grid { grid-template-columns: 1fr; } }
+  .intro-text p {
+    color: #57534e;
+    margin-bottom: 16px;
+    font-size: 1.0rem;
+    line-height: 1.78;
+  }
+  .intro-text p strong { color: #1c1917; }
+  .principle-card {
+    background: #fff8f5;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    border-left: 3px solid #ea580c;
+  }
+  .principle-card h4 {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #1c1917;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .principle-card p {
+    font-size: 0.87rem;
+    color: #78716c;
+    margin: 0;
+  }
+
+  /* WORKFLOW */
+  .phases-wrap { max-width: 920px; margin: 0 auto; }
+  .phase { margin-bottom: 52px; }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .phase-pill {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+  }
+  .phase-pill.p1 { background: #fde8d8; color: #9a3412; }
+  .phase-pill.p2 { background: #fef3c7; color: #92400e; }
+  .phase-title { font-size: 1.1rem; font-weight: 700; color: #1c1917; }
+  .phase-desc { font-size: 0.9rem; color: #78716c; }
+
+  .steps-flow {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  .step-card {
+    flex: 1;
+    min-width: 155px;
+    background: white;
+    border: 1px solid #e7e5e4;
+    border-radius: 10px;
+    padding: 18px 16px;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .step-card::after {
+    content: '\2192';
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #d6d3d1;
+    font-size: 1.1rem;
+    z-index: 2;
+  }
+  .step-card:last-child::after { display: none; }
+
+  .step-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #a8a29e;
+    margin-bottom: 6px;
+  }
+  .step-cmd {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #c2410c;
+    background: #fde8d8;
+    padding: 3px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .step-cmd.amber { color: #92400e; background: #fef3c7; }
+  .step-name { font-size: 0.82rem; font-weight: 600; color: #1c1917; margin-bottom: 4px; }
+  .step-desc { font-size: 0.76rem; color: #a8a29e; line-height: 1.4; }
+
+  .carry-forward-note {
+    margin-top: 20px;
+    padding: 12px 18px;
+    background: #fffbf7;
+    border: 1px dashed #d6cfc7;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #78716c;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .carry-forward-note .icon { font-size: 1rem; flex-shrink: 0; }
+  .carry-forward-note code {
+    background: #fde8d8;
+    color: #c2410c;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: 'SF Mono', monospace;
+    font-size: 0.78rem;
+  }
+
+  .phase-divider {
+    text-align: center;
+    margin: 12px 0 40px;
+    color: #a8a29e;
+    font-size: 0.82rem;
+  }
+  .phase-divider span {
+    background: #faf9f7;
+    padding: 6px 18px;
+    border-radius: 100px;
+    border: 1px solid #e7e5e4;
+  }
+
+  /* SKILLS GRID */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .skill-card {
+    background: white;
+    border: 1px solid #e7e5e4;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .skill-card:hover {
+    box-shadow: 0 6px 20px rgba(194,65,12,0.10);
+    transform: translateY(-2px);
+  }
+  .skill-cmd {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .skill-cmd.orange { background: #fde8d8; color: #9a3412; }
+  .skill-cmd.amber  { background: #fef3c7; color: #92400e; }
+  .skill-cmd.rust   { background: #fee2e2; color: #991b1b; }
+  .skill-cmd.slate  { background: #f5f5f4; color: #44403c; }
+
+  .skill-card h3 { font-size: 0.95rem; font-weight: 700; color: #1c1917; margin-bottom: 8px; }
+  .skill-card p  { font-size: 0.83rem; color: #78716c; line-height: 1.55; }
+  .skill-outputs { margin-top: 14px; padding-top: 14px; border-top: 1px solid #f5f5f4; }
+  .skill-output-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: #a8a29e; margin-bottom: 6px;
+  }
+  .output-tag {
+    display: inline-block;
+    font-size: 0.71rem; font-weight: 500;
+    background: #faf9f7;
+    border: 1px solid #e7e5e4;
+    color: #57534e;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px 2px 0 0;
+  }
+
+  /* GUARDRAILS */
+  .guardrails-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .guardrail-card { padding: 22px; border-radius: 12px; border: 1px solid #e7e5e4; background: white; }
+  .guardrail-card .g-icon {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: 13px;
+  }
+  .guardrail-card h4 { font-size: 0.88rem; font-weight: 700; color: #1c1917; margin-bottom: 6px; }
+  .guardrail-card p  { font-size: 0.8rem; color: #78716c; line-height: 1.55; }
+
+  /* ARCHITECTURE */
+  .arch-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    border: 1px solid #e7e5e4;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .arch-header {
+    background: #2a1e14;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .arch-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .arch-dot.red   { background: #ef4444; }
+  .arch-dot.ylw   { background: #f59e0b; }
+  .arch-dot.grn   { background: #22c55e; }
+  .arch-header span {
+    margin-left: 10px;
+    font-size: 0.78rem;
+    color: #a8a29e;
+    font-family: 'SF Mono', monospace;
+  }
+  .arch-body {
+    background: #fefefe;
+    padding: 28px 32px;
+    overflow-x: auto;
+  }
+  .arch-body pre {
+    font-family: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.9;
+    white-space: pre;
+    color: #292524;
+    margin: 0;
+  }
+  .d  { color: #c2410c; font-weight: 700; }
+  .cm { color: #059669; font-weight: 600; }
+  .ct { color: #a8a29e; }
+  .tr { color: #d6d3d1; }
+
+  /* FOOTER */
+  footer {
+    background: #1a1410;
+    color: #57534e;
+    text-align: center;
+    padding: 36px 32px;
+    font-size: 0.82rem;
+  }
+  footer strong { color: #a8a29e; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Claude Cowork Plugin</div>
+  <h1>Meet <span>Gibbons.</span><br>Your AI Recruiting Command Center.</h1>
+  <p>A structured, AI-powered workflow system that takes a role from rough job description to validated candidate outreach — with no generic output, no skipped steps, and no context lost between sessions.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">8</span><span class="label">Slash Commands</span></div>
+    <div class="hero-stat"><span class="num">2</span><span class="label">Workflow Phases</span></div>
+    <div class="hero-stat"><span class="num">16</span><span class="label">Interview Questions</span></div>
+    <div class="hero-stat"><span class="num">5</span><span class="label">OKRs per Role</span></div>
+  </div>
+</section>
+
+<!-- WHAT IS GIBBONS -->
+<section style="background: white;">
+  <div class="container">
+    <div class="section-label">Overview</div>
+    <div class="intro-grid">
+      <div class="intro-text">
+        <div class="section-title">Built for recruiters who think like operators.</div>
+        <p>Gibbons is a recruiting intelligence plugin built on <strong>Claude AI</strong>. It runs as a structured, step-by-step workflow — from the moment a hiring request lands to the moment a candidate receives a personalized outreach message.</p>
+        <p>Every output is grounded in company context, hiring manager signals, and verifiable candidate evidence. <strong>There is no generic output.</strong> If Gibbons can't cite it, it doesn't say it.</p>
+        <p>The system operates in two phases: a <strong>role intake phase</strong> that builds the job, the interview process, and the success definition — and a <strong>calibration and outreach phase</strong> that validates candidates and crafts outreach that creates real friction and real responses.</p>
+        <p>Context carries forward between sessions via structured handoff blocks, so no recruiter has to re-paste the same job description three times to get the work done.</p>
+      </div>
+      <div>
+        <div class="principle-card">
+          <h4>Candidate Truth Rules</h4>
+          <p>Every claim about a candidate must trace to explicit evidence in their profile. No inference. No gap-filling. If it's not stated, it's "not stated."</p>
+        </div>
+        <div class="principle-card">
+          <h4>Section B + C Context Binding</h4>
+          <p>All output is shaped by company values, ideal candidate profile, and recruiter voice. If the output could apply to any company, it fails.</p>
+        </div>
+        <div class="principle-card">
+          <h4>Carry Forward Architecture</h4>
+          <p>Each skill ends with a structured handoff block. Paste it into the next session. Zero re-work. Full context preserved.</p>
+        </div>
+        <div class="principle-card">
+          <h4>Memory Persistence</h4>
+          <p>Company research and kickoff notes are stored per-role in a memory directory so any session can pick up exactly where the last left off.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section style="background: #faf9f7;">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <div class="section-title">Two phases. One continuous chain.</div>
+    <p class="section-sub">Every role moves through the same sequence. No skipping steps. Each output feeds the next.</p>
+
+    <div class="phases-wrap">
+      <div class="phase">
+        <div class="phase-header">
+          <span class="phase-pill p1">Phase 1</span>
+          <div>
+            <div class="phase-title">Role Intake</div>
+            <div class="phase-desc">JD to structured interview process. Happens before sourcing begins.</div>
+          </div>
+        </div>
+        <div class="steps-flow">
+          <div class="step-card">
+            <div class="step-num">Step 1</div>
+            <span class="step-cmd">/enhance</span>
+            <div class="step-name">JD Enhancement</div>
+            <div class="step-desc">Detox the raw JD. Remove bias, inflate clarity, add search terms.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Step 2</div>
+            <span class="step-cmd">/kickoff</span>
+            <div class="step-name">Kickoff Prep</div>
+            <div class="step-desc">Risk flags, strategic questions, framing for the hiring manager meeting.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Step 3</div>
+            <span class="step-cmd">/okr</span>
+            <div class="step-name">OKR + KPI Builder</div>
+            <div class="step-desc">5 first-year objectives with measurable key results and KPIs.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Step 4</div>
+            <span class="step-cmd">/interview</span>
+            <div class="step-name">Interview Kit</div>
+            <div class="step-desc">16 questions across 4 panels. Three-tier rubrics. Ready to run.</div>
+          </div>
+        </div>
+        <div class="carry-forward-note">
+          <span class="icon">&#8599;</span>
+          <span>After kickoff prep, the recruiter meets with the hiring manager using the Kickoff Template Google Doc. Meeting notes feed directly into <code>/okr</code> and <code>/interview</code> — no re-paste required.</span>
+        </div>
+      </div>
+
+      <div class="phase-divider">
+        <span>Sourcing happens here — outside of Gibbons</span>
+      </div>
+
+      <div class="phase">
+        <div class="phase-header">
+          <span class="phase-pill p2">Phase 2</span>
+          <div>
+            <div class="phase-title">Calibration + Outreach</div>
+            <div class="phase-desc">Candidate profiles in. Validated, personalized outreach out.</div>
+          </div>
+        </div>
+        <div class="steps-flow">
+          <div class="step-card">
+            <div class="step-num">Step 5</div>
+            <span class="step-cmd amber">/validate</span>
+            <div class="step-name">Candidate Validation</div>
+            <div class="step-desc">Signal strength rating 1-5. JD mapping. Evidence-only. Proceed or skip.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Optional</div>
+            <span class="step-cmd amber">/external</span>
+            <div class="step-name">Company Research</div>
+            <div class="step-desc">14-section intel brief on a candidate's current or prior employer.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Step 6</div>
+            <span class="step-cmd amber">/outreach</span>
+            <div class="step-name">Candidate Outreach</div>
+            <div class="step-desc">Hook/Bridge/Value/CTA. 4 messages per candidate. Tension levels A-D.</div>
+          </div>
+        </div>
+        <div class="carry-forward-note">
+          <span class="icon">&#8599;</span>
+          <span>Validation signals carry forward into <code>/outreach</code> automatically — even across sessions. If a <code>CARRY FORWARD — Candidate Validation</code> block is present, signal extraction is skipped. No duplicate work.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section style="background: white;">
+  <div class="container">
+    <div class="section-label">Skills Reference</div>
+    <div class="section-title">Every command. What it does. What it produces.</div>
+    <p class="section-sub">Gibbons runs as a Cowork plugin. Each skill is invokable by slash command with structured inputs and structured outputs.</p>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <span class="skill-cmd orange">/enhance</span>
+        <h3>JD Enhancement</h3>
+        <p>Cleans, positions, and optimizes a raw job description. Removes bias, inflated requirements, and vague language. Adds search-optimized terms and aligns to company values.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">Detoxed JD</span>
+          <span class="output-tag">Section C alignment check</span>
+          <span class="output-tag">Search term additions</span>
+          <span class="output-tag">Carry Forward &#8594; /kickoff</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-cmd orange">/kickoff</span>
+        <h3>Kickoff Prep</h3>
+        <p>Analyzes the enhanced JD to surface business risks, challenge untested assumptions, and generate high-leverage questions for the hiring manager meeting.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">Role signal extraction</span>
+          <span class="output-tag">7-10 strategic questions</span>
+          <span class="output-tag">Risk flags</span>
+          <span class="output-tag">Kickoff framing statement</span>
+          <span class="output-tag">Carry Forward &#8594; /okr</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-cmd orange">/okr</span>
+        <h3>OKR + KPI Builder</h3>
+        <p>Translates kickoff signals and hiring manager notes into 5 first-year objectives with measurable key results and KPIs. Defines what success looks like concretely.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">5 Objectives</span>
+          <span class="output-tag">Key Results per objective</span>
+          <span class="output-tag">KPIs</span>
+          <span class="output-tag">Carry Forward &#8594; /interview</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-cmd orange">/interview</span>
+        <h3>Interview Kit Builder</h3>
+        <p>Produces a full structured interview kit — 16 questions across 4 panels with three-tier rubrics for every question.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">16 questions</span>
+          <span class="output-tag">4 panels</span>
+          <span class="output-tag">Three-tier rubrics</span>
+          <span class="output-tag">Carry Forward &#8594; /validate</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-cmd amber">/validate</span>
+        <h3>Candidate Validation</h3>
+        <p>Evaluates candidate profiles against the JD and ICP. Produces a Signal Strength Rating (1-5), evidence-mapped observations, and a clear proceed/skip recommendation.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">Signal Strength Rating</span>
+          <span class="output-tag">JD mapping (3-5 bullets)</span>
+          <span class="output-tag">Gaps and risks</span>
+          <span class="output-tag">Carry Forward &#8594; /outreach</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-cmd amber">/outreach</span>
+        <h3>Candidate Outreach</h3>
+        <p>Builds 4 personalized outreach messages per candidate using the Hook/Bridge/Value/CTA framework. Tension levels A through D. Source-mapped. Compliance-checked. Never generic.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">4 messages per candidate</span>
+          <span class="output-tag">Source map</span>
+          <span class="output-tag">Section B absorption check</span>
+          <span class="output-tag">Compliance check</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-cmd rust">/external</span>
+        <h3>External Company Research</h3>
+        <p>Produces a 14-section intelligence brief on any company — funding, leadership, tech stack, culture, competitors, risk signals. Confidence and staleness flags on every section.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">14-section knowledge base</span>
+          <span class="output-tag">Confidence ratings</span>
+          <span class="output-tag">Staleness flags</span>
+          <span class="output-tag">Candidate pitch angles</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-cmd slate">/detox</span>
+        <h3>JD Detox</h3>
+        <p>Lighter-touch cleanup of a JD — strips jargon, bias, and bloat without running the full enhancement workflow. Good for a quick pass before a kickoff meeting.</p>
+        <div class="skill-outputs">
+          <div class="skill-output-label">Outputs</div>
+          <span class="output-tag">Cleaned JD</span>
+          <span class="output-tag">Removed items log</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GUARDRAILS -->
+<section style="background: #faf9f7;">
+  <div class="container">
+    <div class="section-label">Design Principles</div>
+    <div class="section-title">The rules that make every output trustworthy.</div>
+    <p class="section-sub">Gibbons enforces a layered constraint system across every skill. These aren't suggestions — they're hard checks built into each workflow.</p>
+    <div class="guardrails-grid">
+      <div class="guardrail-card">
+        <div class="g-icon" style="background:#fde8d8;">&#128269;</div>
+        <h4>Candidate Truth Rules</h4>
+        <p>Every claim about a candidate must trace to explicit text in their profile. No inferences. No pattern-matching. If information is missing, the output says "not stated" — not a plausible guess.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="g-icon" style="background:#fef3c7;">&#127919;</div>
+        <h4>Context Binding</h4>
+        <p>Section B (voice and tone) and Section C (ICP and values) are authoritative context that shapes every output. If the deliverable could apply to any company, it fails the check.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="g-icon" style="background:#fff8f5;">&#9878;&#65039;</div>
+        <h4>Scope Constraints</h4>
+        <p>Do exactly what was asked. No strategic additions, no unsolicited recommendations, no broadened mandates. Adjacent ideas go in an "Optional extras" section — max 3 bullets, never expanded.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="g-icon" style="background:#fee2e2;">&#128721;</div>
+        <h4>Non-Negotiables</h4>
+        <p>A hard list of phrases, patterns, and behaviors that never appear in any output — regardless of context. These override all stylistic defaults and apply to every word written on the recruiter's behalf.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="g-icon" style="background:#faf9f7;">&#128203;</div>
+        <h4>Assumption Discipline</h4>
+        <p>When inputs are missing, Gibbons chooses a practical default and labels it clearly under "Assumptions." Assumptions are never blended into core output or presented as facts.</p>
+      </div>
+      <div class="guardrail-card">
+        <div class="g-icon" style="background:#f0fdf4;">&#9989;</div>
+        <h4>Verification Gates</h4>
+        <p>Before final output, each skill runs a compliance check. Outreach messages run a source map, a Section B absorption check, and a could-you-send-this-to-ten-people test. Failures trigger a rewrite before anything is shown.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section style="background: white;">
+  <div class="container" style="max-width: 820px;">
+    <div class="section-label">Architecture</div>
+    <div class="section-title">How Gibbons is structured.</div>
+    <p class="section-sub">A Cowork plugin with named skills, layered context files, Google Workspace templates, and a file-based memory system for cross-session persistence.</p>
+
+    <div class="arch-wrap">
+      <div class="arch-header">
+        <div class="arch-dot red"></div>
+        <div class="arch-dot ylw"></div>
+        <div class="arch-dot grn"></div>
+        <span>gibbons / plugin structure</span>
+      </div>
+      <div class="arch-body">
+        <pre><span class="d">gibbons/</span>
+<span class="tr">&#9500;&#9472;&#9472;</span> <span class="d">manifest</span>                        <span class="ct"># Master workflow guide</span>
+<span class="tr">&#9474;</span>
+<span class="tr">&#9500;&#9472;&#9472;</span> <span class="d">skills/</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Section_A_Technical_Guardrails  <span class="ct"># Enforcement rules</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Section_B_About_Me              <span class="ct"># Voice + tone + role</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Section_C_ICP                   <span class="ct"># Ideal candidate profile</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> JD_Enhancement          <span class="cm">/enhance</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Kickoff_Prep_Guide       <span class="cm">/kickoff</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> OKR_KPI_Builder          <span class="cm">/okr</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Interview_Kit_Builder    <span class="cm">/interview</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Candidate_Validation     <span class="cm">/validate</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Candidate_Outreach       <span class="cm">/outreach</span>
+<span class="tr">&#9474;   &#9492;&#9472;&#9472;</span> External_Company_Research   <span class="cm">/external</span>
+<span class="tr">&#9474;</span>
+<span class="tr">&#9500;&#9472;&#9472;</span> <span class="d">templates/</span>
+<span class="tr">&#9474;   &#9500;&#9472;&#9472;</span> Recruiting_Request_Template     <span class="ct"># Google Doc</span>
+<span class="tr">&#9474;   &#9492;&#9472;&#9472;</span> Recruiting_Kickoff_Template     <span class="ct"># Google Doc</span>
+<span class="tr">&#9474;</span>
+<span class="tr">&#9492;&#9472;&#9472;</span> <span class="d">memory/</span>
+    <span class="tr">&#9500;&#9472;&#9472;</span> <span class="d">company/</span>    <span class="ct"># Cached internal research</span>
+    <span class="tr">&#9492;&#9472;&#9472;</span> <span class="d">kickoffs/</span>   <span class="ct"># One file per open role</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Gibbons</strong> &mdash; AI-Powered Recruiting Command Center<br>
+  Built on Claude AI &middot; Runs in Claude Cowork &middot; Context-bound. Evidence-grounded. Never generic.
+</footer>
+
+</body>
+</html>
